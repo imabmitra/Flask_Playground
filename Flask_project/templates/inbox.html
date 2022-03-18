@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Messages in inbox</title>
+</head>
+<body>
+    
+        {% for message in messages %}
+        <div class="message-strip">
+                <div style="flex:3%; padding: 2px 2px; margin-top: 2px;"><img src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png" width="30"></div>
+                <div style="flex: 97%; margin-top: 3px;">
+                <div id="name_email_inbox">
+                    <span><strong style="color:rgb(58, 5, 66);">{{ message.Name}}</strong></span>&nbsp;
+                    <span class="mini_device_display" style="color:rgb(236, 176, 9);">{{ message.Email}}</span>&nbsp;
+                </div>
+                <div id="date_inbox">
+                <span style="color: rgb(90, 165, 240);">{{message.date}}</span><br>
+                </div>
+                <div id="Message_inbox" >
+                    <span class="visibility_none_small_disp_message">
+                    {% if (message.read_status==0) %}
+                    <strong> 
+                    <a href="/open_message/{{message.sno}}" style="text-decoration:none; color: #8f248f;">{{ message.Message[0:170]}}....</a>
+                    </strong>
+                    {% endif %}  
+                    {% if (message.read_status==1) %}
+                    <a href="/open_message/{{message.sno}}" style="text-decoration:none; color: #353335;">{{ message.Message[0:170]}}....</a>
+                    {% endif %}  
+                    </span>
+
+                    <span class="visibility_none_large_disp_message">
+                    {% if (message.read_status==0) %}
+                    <strong> 
+                    <a href="/open_message/{{message.sno}}" style="text-decoration:none; color: #8f248f;">{{ message.Message[0:40]}}....</a>
+                    </strong>
+                    {% endif %}  
+                    {% if (message.read_status==1) %}
+                    <a href="/open_message/{{message.sno}}" style="text-decoration:none; color: #353335;">{{ message.Message[0:40]}}....</a>
+                    {% endif %}  
+                    </span>
+                </div>
+                </div>                
+            </div>
+        {% endfor %}
+        {% if (page_no==0) and (page_no!=last_page)%}
+        <button type="submit" style="width: 5rem; margin:1rem;float: right;" onclick="window.location.href='/inbox/{{page_no+1}}';">Next</button>
+        {% endif%}
+        {% if (page_no > 0) and (page_no < last_page) %}
+        <button type="submit" style="width: 5rem; margin:1rem;float: right;" onclick="window.location.href='/inbox/{{page_no+1}}';">Next</button>
+        <button type="submit" style="width: 5rem; margin:1rem;float: left;" onclick="window.location.href='/inbox/{{page_no-1}}';">Prev</button>
+        {% endif%}
+        {% if (page_no==last_page) and (page_no!=0)%}
+        <button type="submit" style="width: 5rem; margin:1rem;float: left;" onclick="window.location.href='/inbox/{{page_no-1}}';">Prev</button>
+        {% endif%}
+        
+</body>
+</html>
